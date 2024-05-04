@@ -15,6 +15,13 @@ spring:
           filters:
             - PrefixPath=/api
 
+        - id: books
+          uri: http://localhost:8082
+          predicates:
+            - Path=/books/**
+          filters:
+            - PrefixPath=/api
+
 management:
   endpoints:
     web:
