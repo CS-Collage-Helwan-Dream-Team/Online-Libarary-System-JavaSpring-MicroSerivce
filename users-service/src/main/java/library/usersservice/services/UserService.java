@@ -5,6 +5,7 @@ import library.usersservice.models.User;
 import library.usersservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,18 @@ public class UserService {
         user.setStatus(UserStatus.rejected.toString());
         userRepository.save(user);
         return user;
+    }
+
+    public List<User> getALl(){
+        return userRepository.findAll();
+    }
+
+    public User update (User user) {
+        userRepository.save(user);
+        return user;
+    }
+
+    public void delete (User user){
+        userRepository.delete(user);
     }
 }
