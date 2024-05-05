@@ -16,18 +16,23 @@ public class AuthorizationAspect {
 
     @Before(value = "@annotation(library.payment_service.annotations.AuthorizationRequired) && execution(* library.payment_service.controllers.*.*(..)) && args(.., credentials)")
     public void authorize(String credentials) {
-        // Extract user ID and user role from credentials header
         String[] parts = credentials.split(",");
         String userRole = null;
+        String userId = null;
         for (String part : parts) {
             String[] keyValue = part.split("=");
-            if (keyValue.length == 2 && keyValue[0].trim().equalsIgnoreCase("userRole")) {
-                userRole = keyValue[1].trim();
-                break;
+            if (keyValue.length == 2) {
+                if (keyValue[0].trim().equalsIgnoreCase("userRole")) {
+                    userRole = keyValue[1].trim();
+                } else if (keyValue[0].trim().equalsIgnoreCase("userId")) {
+                    userId = keyValue[1].trim();
+                }
             }
         }
-        if (userRole != null && !(userRole.equalsIgnoreCase(UserRole.USER.toString()) || userRole.equalsIgnoreCase(UserRole.LIBRARIAN.toString()))) {
-            throw new UnauthorizedException("user is not authorized");
+        System.out.println("User Role: " + userRole);
+        System.out.println("User ID: " + userId);
+        if (userRole != null && userId != null && !userId.isEmpty() && !(userRole.equalsIgnoreCase(UserRole.USER.toString()) || userRole.equalsIgnoreCase(UserRole.LIBRARIAN.toString()))) {
+            throw new UnauthorizedException("User is not authorized");
         }
     }
 }

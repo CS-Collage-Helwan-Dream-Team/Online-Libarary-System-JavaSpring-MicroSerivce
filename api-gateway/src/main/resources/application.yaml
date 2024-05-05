@@ -12,22 +12,18 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/users/**
-          filters:
-            - PrefixPath=/api
+
 
         - id: books
           uri: http://localhost:8082
           predicates:
             - Path=/books/**
-          filters:
-            - PrefixPath=/api
+
 
         - id: payment
           uri: http://localhost:8085
           predicates:
             - Path=/payment/**
-          filters:
-            - PrefixPath=/api
 
 management:
   endpoints:
