@@ -1,6 +1,9 @@
 package library.usersservice.controllers;
 
+import library.usersservice.annotations.AuthorizationRequired;
+import library.usersservice.annotations.UserRoleCheck;
 import library.usersservice.dtos.ResponseDTO;
+import library.usersservice.enums.UserRole;
 import library.usersservice.models.User;
 import library.usersservice.requests.UpdateUserRequest;
 import library.usersservice.services.UserService;
@@ -22,6 +25,8 @@ public class UsersController {
         this.userService = userService;
     }
 
+    @AuthorizationRequired
+    @UserRoleCheck(UserRole.LIBRARIAN)
     @GetMapping("/api/librarian/users")
     public ResponseEntity<ResponseDTO> Index(){
         List<User> allUsers = userService.getALl();
@@ -38,6 +43,8 @@ public class UsersController {
                 );
     }
 
+    @AuthorizationRequired
+    @UserRoleCheck(UserRole.LIBRARIAN)
     @PatchMapping("/api/librarian/users/{Id}")
     public ResponseEntity<ResponseDTO> Update(@PathVariable Integer Id , @RequestBody UpdateUserRequest request){
 
@@ -72,6 +79,8 @@ public class UsersController {
                 );
     }
 
+    @AuthorizationRequired
+    @UserRoleCheck(UserRole.LIBRARIAN)
     @DeleteMapping("/api/librarian/users/{Id}")
     public ResponseEntity<ResponseDTO> Delete(@PathVariable Integer Id){
         User existingUser = userService.findById(Id);

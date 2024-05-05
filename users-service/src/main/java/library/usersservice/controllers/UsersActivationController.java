@@ -1,7 +1,9 @@
 package library.usersservice.controllers;
 
-import jakarta.persistence.EntityManager;
+import library.usersservice.annotations.AuthorizationRequired;
+import library.usersservice.annotations.UserRoleCheck;
 import library.usersservice.dtos.ResponseDTO;
+import library.usersservice.enums.UserRole;
 import library.usersservice.enums.UserStatus;
 import library.usersservice.models.User;
 import library.usersservice.services.UserService;
@@ -21,6 +23,8 @@ public class UsersActivationController {
         this.userService = userService;
     }
 
+    @AuthorizationRequired
+    @UserRoleCheck(UserRole.LIBRARIAN)
     @PatchMapping("/api/librarian/users/{Id}/approve")
     public ResponseEntity<ResponseDTO> approve(@PathVariable Integer Id) {
 
@@ -63,6 +67,8 @@ public class UsersActivationController {
                 );
     }
 
+    @AuthorizationRequired
+    @UserRoleCheck(UserRole.LIBRARIAN)
     @PatchMapping("/api/librarian/users/{Id}/reject")
     public ResponseEntity<ResponseDTO> reject(@PathVariable Integer Id) {
 
