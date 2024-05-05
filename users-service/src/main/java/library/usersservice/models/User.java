@@ -14,15 +14,26 @@ public class User {
     private String role;
     private int maxBorrowedBooks;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
+
     public User() {
     }
 
-    public User(String username, String password, String email, String role, int maxBorrowedBooks) {
+    public User(String username, String password, String email, String role, int maxBorrowedBooks , String status) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.maxBorrowedBooks = maxBorrowedBooks;
+        this.status = status;
     }
 
     public int getId() {

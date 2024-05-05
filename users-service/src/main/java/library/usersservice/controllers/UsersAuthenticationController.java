@@ -1,6 +1,7 @@
-package library.usersservice;
+package library.usersservice.controllers;
 
 import library.usersservice.dtos.ResponseDTO;
+import library.usersservice.enums.UserStatus;
 import library.usersservice.models.User;
 import library.usersservice.requests.LoginRequest;
 import library.usersservice.requests.RegisterRequest;
@@ -14,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-public class UsersController {
+public class UsersAuthenticationController {
 
     private final UserService userService;
-    public UsersController(UserService userService) {
+    public UsersAuthenticationController(UserService userService) {
         this.userService = userService;
     }
-
 
     @PostMapping("api/auth/login")
     public ResponseEntity<ResponseDTO> login(@RequestBody LoginRequest request) {
@@ -54,8 +54,6 @@ public class UsersController {
         );
     }
 
-
-
     @PostMapping("api/auth/customer/register")
     public ResponseEntity<ResponseDTO> register(@RequestBody RegisterRequest request){
 
@@ -75,7 +73,8 @@ public class UsersController {
                 request.getPassword(),
                 request.getEmail(),
                 request.getRole(),
-                0
+                0,
+                request.getRole().equals("libirarian") ? UserStatus.approved.toString() : UserStatus.pending.toString()
         );
 
         userService.create(user);
