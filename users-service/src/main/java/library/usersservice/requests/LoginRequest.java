@@ -1,4 +1,4 @@
-package library.usersservice.request;
+package library.usersservice.requests;
 
 public class LoginRequest {
 

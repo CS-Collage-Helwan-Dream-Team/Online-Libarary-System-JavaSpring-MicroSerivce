@@ -1,4 +1,4 @@
-package library.usersservice.model;
+package library.usersservice.models;
 
 import jakarta.persistence.*;
 
@@ -15,6 +15,14 @@ public class User {
     private int maxBorrowedBooks;
 
     public User() {
+    }
+
+    public User(String username, String password, String email, String role, int maxBorrowedBooks) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.maxBorrowedBooks = maxBorrowedBooks;
     }
 
     public int getId() {

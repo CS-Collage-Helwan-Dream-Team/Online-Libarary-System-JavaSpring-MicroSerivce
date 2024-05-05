@@ -1,6 +1,6 @@
-package library.usersservice.repository;
+package library.usersservice.repositories;
 
-import library.usersservice.model.User;
+import library.usersservice.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

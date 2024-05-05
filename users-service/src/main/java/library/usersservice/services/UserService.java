@@ -1,7 +1,7 @@
-package library.usersservice.service;
+package library.usersservice.services;
 
-import library.usersservice.model.User;
-import library.usersservice.repository.UserRepository;
+import library.usersservice.models.User;
+import library.usersservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,10 +19,8 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> findById(Integer id){
-        return userRepository.findById(id);
+    public User create(User user) {
+        return userRepository.save(user);
     }
-    public int count(){
-        return (int) userRepository.count();
-    }
+
 }
