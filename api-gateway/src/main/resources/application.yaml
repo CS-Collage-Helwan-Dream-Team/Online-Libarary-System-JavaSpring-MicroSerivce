@@ -22,6 +22,13 @@ spring:
           filters:
             - PrefixPath=/api
 
+        - id: payment
+          uri: http://localhost:8085
+          predicates:
+            - Path=/payment/**
+          filters:
+            - PrefixPath=/api
+
 management:
   endpoints:
     web:
