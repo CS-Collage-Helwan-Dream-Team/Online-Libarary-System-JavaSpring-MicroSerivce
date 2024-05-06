@@ -24,9 +24,8 @@ public class SubController {
     @PostMapping(path = "addSubscriber")
     public ResponseEntity<ResponseDTO> addSubscriber(@RequestBody SubscriberRequest subscriberRequest){
 
-          SubModel Subscriber = subscriptionService.addSubscriber(subscriberRequest);
-
-          if (Subscriber != null) {
+          if ( subscriptionService.addCheckNull(subscriberRequest)) {
+              SubModel Subscriber = subscriptionService.addSubscriber(subscriberRequest);
               return ResponseEntity.status(HttpStatus.CREATED).body(
                       new ResponseDTO(
                               "Subscriber added successfully",
@@ -88,6 +87,8 @@ public class SubController {
         }
 
     }
+
+
 }
 
 
