@@ -20,12 +20,14 @@ public class SubscriptionService {
 
 //////////////   Main //////////////////
 
-    public void addSubscriber(SubscriberRequest subscriberRequest) {
+    public SubModel addSubscriber(SubscriberRequest subscriberRequest) {
         SubModel subscriber = new SubModel();
         subscriber.setUserId(subscriberRequest.getUserId());
         subscriber.setPaymentId(subscriberRequest.getPaymentId());
         subscriber.setStartDate(subscriberRequest.getStartDate());
-        subscriberRepository.save(subscriber);
+        subscriber = subscriberRepository.save(subscriber);
+
+        return subscriber ;
     }
 
 
