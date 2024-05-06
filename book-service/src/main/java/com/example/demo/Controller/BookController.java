@@ -25,6 +25,11 @@ public class BookController {
     private final BookService bookService;
     private final BookRepository bookRepository;
 
+    @Autowired
+    public BookController(BookService bookService, BookRepository bookRepository) {
+        this.bookService = bookService;
+        this.bookRepository = bookRepository;
+    }
     @AuthorizationRequired
     @UserRoleCheck(UserRole.LIBRARIAN)
 
@@ -33,16 +38,43 @@ public class BookController {
         return "Hello, World!";
     }
 
-    @Autowired
-    public BookController(BookService bookService, BookRepository bookRepository) {
-        this.bookService = bookService;
-        this.bookRepository = bookRepository;
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO> getAllBooks(@RequestHeader("credentials") String credentials) {
+
+        List<Book> book  = bookService.getAllBooks();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseDTO(
+                        "Books found successfully",
+                        HttpStatus.OK,
+                        new HashMap<String , Object>(){{
+                            put("books", book);
+                        }}
+                )
+        );
     }
 
 
-    @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDTO> getBookById(@PathVariable Integer id,@RequestHeader("credentials") String credentials) {
+        Book book = bookService.getBookById(id);
+
+        if (book != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseDTO(
+                            "Book found successfully",
+                            HttpStatus.OK,
+                            new HashMap<String , Object>(){{
+                                put("book", book);
+                            }}));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new ResponseDTO(
+                            "Book not found",
+                            HttpStatus.BAD_REQUEST
+                    )
+            );
+        }
     }
 
     @PostMapping

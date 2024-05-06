@@ -1,99 +1,49 @@
 version: '3.8'
 
 services:
-  api-gateway:
-    build: ./api-gateway
+  usersDatabase:
+    container_name: usersDatabase
+    image: mysql:8.0.36
     ports:
-      - "8080:8080"
-    depends_on:
-      - book-service
-      - user-service
-      - borrow-service
-      - payment-service
-      - sp-service
-      - recommendation-service
-
-  book-service:
-    build: ./book-service
+      - "3308:3306"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://books-db:3306/books-db
-    depends_on:
-      - books-db
+      - MYSQL_DATABASE=users
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+  booksDatabase:
+    container_name: booksDatabase
+    image: mysql:8.0.36
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=book
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
 
   user-service:
-    build: ./user-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://users-db:3306/users-db
-    depends_on:
-      - users-db
-
-  borrow-service:
-    build: ./borrow-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://books-db:3306/books-db
-    depends_on:
-      - books-db
-
-  payment-service:
-    build: ./payment-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://payment-db:3306/payment-db
-    depends_on:
-      - payment-db
-
-  sp-service:
-    build: ./subscription-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://sp-db:3306/sp-db
-    depends_on:
-      - sp-db
-
-  recommendation-service:
-    build: ./recommendation-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://books-db:3306/books-db
-    depends_on:
-      - books-db
-
-  frontend:
-    build: ./frontend
+    container_name: users_service
+    image: springboot-app
+    build: ./users-service
     ports:
-      - "3000:3000"
+      - "8085:8085"
+    depends_on:
+      - usersDatabase
+    networks:
+      - spring-network
 
-  books-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=books-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - books-data:/var/lib/mysql
+  books-service:
+    container_name: books_service
+    image: springboot-app
+    build: ./book-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - booksDatabase
+    networks:
+      - spring-network
 
-  users-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=users-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - users-data:/var/lib/mysql
 
-  payment-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=payment-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - payment-data:/var/lib/mysql
-
-  sp-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=sp-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - sp-data:/var/lib/mysql
-
-volumes:
-  books-data:
-  users-data:
-  payment-data:
-  sp-data:
+networks:
+  spring-network:
