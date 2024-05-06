@@ -24,7 +24,7 @@ public class BorrowedBooks {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "Id", insertable = false, updatable = false)
+    @JoinColumn(name = "book_id", referencedColumnName = "Id")
     private Book book;
 
     @NotNull
