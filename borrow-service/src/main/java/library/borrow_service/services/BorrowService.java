@@ -33,23 +33,25 @@ public class BorrowService {
 
     public List<BorrowRequestResources> getBorrowRequests() {
         return requestRepo.findAll().stream()
-                .map(request -> new BorrowRequestResources(
-                        request.getBook().getTitle(),
-                        request.getUserId().toString(),
-                        request.getStatus(),
-                        request.getRequestedAt()
-                )).collect(Collectors.toList());
+                .map(request -> BorrowRequestResources.builder()
+                        .BookName(request.getBook().getTitle())
+                        .RequestUserName(request.getUserId().toString())
+                        .Status(request.getStatus())
+                        .RequestedAt(request.getRequestedAt())
+                        .build()
+                ).collect(Collectors.toList());
     }
 
     public List<BorrowedBookResource> getUserBorrowedBooks(int userID){
         return borrowedRepo.findAllByUserId(userID).stream()
-                .map(borrowed -> new BorrowedBookResource(
-                        borrowed.getBook().getTitle(),
-                        borrowed.getBook().getAuthorName(),
-                        borrowed.getRequest().getId(),
-                        borrowed.getBorrowedAt(),
-                        borrowed.getReturnedAt()
-                )).collect(Collectors.toList());
+                .map(borrowed ->  BorrowedBookResource.builder()
+                        .BookName(borrowed.getBook().getTitle())
+                        .AuthorName(borrowed.getBook().getAuthorName())
+                        .BorrowRecordId(borrowed.getRequest().getId())
+                        .BorrowedAt(borrowed.getBorrowedAt())
+                        .ReturnedAt(borrowed.getReturnedAt())
+                        .build())
+                .collect(Collectors.toList());
     }
     public int getRequestedUserId(int requestId){
         return requestRepo.findById(requestId).map(BorrowRequest::getUserId).orElse(0);
@@ -61,6 +63,15 @@ public class BorrowService {
         requestRepo.findById(requestId).ifPresent(request -> {
             request.setStatus("approved");
             requestRepo.save(request);
+        });
+        //add the book to the borrowed books
+        requestRepo.findById(requestId).ifPresent(request -> {
+            BorrowedBooks borrowedBook = new BorrowedBooks();
+            borrowedBook.setBook(request.getBook());
+            borrowedBook.setUserId(request.getUserId());
+            borrowedBook.setBorrowedAt(Instant.now());
+            borrowedBook.setRequest(request);
+            borrowedRepo.save(borrowedBook);
         });
     }
     public void rejectBorrowRequest(int requestId){
@@ -93,7 +104,7 @@ public class BorrowService {
         boolean bookAlreadyBorrowed = checkBookAlreadyBorrowed(bookId);
         boolean userExceedLimit = checkUserExceedLimit(userId);
         boolean userAlreadyRequested = checkUserAlreadyRequested(userId, bookId);
-        boolean isUserNotSubscribed = checkUserIsSubscribed(userId);
+        boolean isUserNotSubscribed = !checkUserIsSubscribed(userId);
 
         return Map.of(
                 "userAlreadyBorrowed", userAlreadyBorrowed,

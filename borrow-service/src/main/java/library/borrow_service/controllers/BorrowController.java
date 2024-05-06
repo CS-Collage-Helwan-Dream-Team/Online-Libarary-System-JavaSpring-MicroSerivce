@@ -30,7 +30,9 @@ public class BorrowController {
     @GetMapping
     public ResponseEntity<ResponseDTO> home(@RequestHeader("credentials") String credentials) {
         List<BorrowRequestResources> borrowRequests = borrowService.getBorrowRequests();
-        return ResponseEntity.ok(new ResponseDTO("Borrow requests retrieved successfully.", HttpStatus.OK,borrowRequests));
+        ResponseDTO responseDTO =new ResponseDTO("Borrow requests retrieved successfully.", HttpStatus.OK);
+        responseDTO.addData("borrowRequests",borrowRequests);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @AuthorizationRequired
@@ -38,7 +40,9 @@ public class BorrowController {
     public ResponseEntity<ResponseDTO> userHome(@RequestHeader("credentials") String credentials) {
         int authUserId = CredentialsExtractor.getUserId(credentials);
         List<BorrowedBookResource> borrowRequests = borrowService.getUserBorrowedBooks(authUserId);
-        return ResponseEntity.ok(new ResponseDTO("Borrow requests retrieved successfully.", HttpStatus.OK,borrowRequests));
+        ResponseDTO responseDTO =new ResponseDTO("Borrow history retrieved successfully.", HttpStatus.OK);
+        responseDTO.addData("borrowHistory",borrowRequests);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @AuthorizationRequired
@@ -56,8 +60,6 @@ public class BorrowController {
             return ResponseEntity.ok(new ResponseDTO("Book already borrowed by another user.",HttpStatus.BAD_REQUEST));
         if(isUserCanBorrow.get("userExceedLimit"))
             return ResponseEntity.ok(new ResponseDTO("User exceed the limit of borrowed books.",HttpStatus.BAD_REQUEST));
-        if(isUserCanBorrow.get("userAlreadyRequested"))
-            return ResponseEntity.ok(new ResponseDTO("User already requested for this book.",HttpStatus.BAD_REQUEST));
         if (isUserCanBorrow.get("isUserNotSubscribed"))
             return ResponseEntity.ok(new ResponseDTO("User is not subscribed.",HttpStatus.BAD_REQUEST));
 
