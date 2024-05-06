@@ -1,0 +1,1 @@
+INSERT into payment_history (user_id, amount, card_number) values (1, 100, 5425233430109903),(1, 50, 5425233430109903),(1, 60, 5425233430109903),(1, 70, 5425233430109903);

@@ -1,0 +1,17 @@
+package library.borrow_service.resources;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BorrowRequestResources {
+    private String BookName;
+    private String RequestUserName;
+    private String Status;
+    private Instant RequestedAt;
+}

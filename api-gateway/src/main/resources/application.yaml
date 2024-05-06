@@ -11,14 +11,17 @@ spring:
         - id: users
           uri: http://localhost:8081
           predicates:
-            - Path=/users/**
+            - Path=/api/users/**
 
+        - id: borrow
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/borrow/**
 
         - id: books
           uri: http://localhost:8082
           predicates:
-            - Path=/books/**
-
+            - Path=/api/books/**
 
         - id: payment
           uri: http://localhost:8085

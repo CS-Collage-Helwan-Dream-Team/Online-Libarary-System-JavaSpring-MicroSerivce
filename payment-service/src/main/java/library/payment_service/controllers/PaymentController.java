@@ -20,9 +20,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/payment")
 public class PaymentController {
-    @Autowired
-    private PaymentService paymentService;
 
+    private final PaymentService paymentService;
+    @Autowired
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
     @AuthorizationRequired
     @PostMapping("pay")
     public ResponseDTO pay(@Valid @RequestBody PaymentDTO paymentRequest,@RequestHeader("credentials") String credentials){
