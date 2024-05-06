@@ -14,7 +14,7 @@ import java.util.Map;
 @Component
 public class AuthorizationAspect {
 
-    @Before(value = "@annotation(library.payment_service.annotations.AuthorizationRequired) && execution(* library.payment_service.controllers.*.*(..)) && args(.., credentials)")
+    @Before(value = "@annotation(com.example.demo.annotations.AuthorizationRequired) && execution(* com.example.demo.Controller.*.*(..)) && args(.., credentials)")
     public void authorize(String credentials) {
         String[] parts = credentials.split(",");
         String userRole = null;

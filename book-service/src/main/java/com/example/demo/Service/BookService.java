@@ -29,7 +29,7 @@ public class BookService {
 
     public Book getBookById(int id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
-        return optionalBook.orElse(null); // Return null if book is not found
+        return optionalBook.orElse(null);
     }
 
     public Book addBook(AddBookRequest addBookRequest) {

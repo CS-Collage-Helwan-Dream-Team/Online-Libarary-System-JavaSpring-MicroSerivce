@@ -39,20 +39,10 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/books/{id}")
-    public Object getBooks(@PathVariable(required = false) Integer id) {
-        if (id != null) {
-            // If id is provided, return the book with the specified id
-            Book book = bookService.getBookById(id);
-            if (book != null) {
-                return book;
-            } else {
-                return "Book not found";
-            }
-        } else {
-            // If id is not provided, return all books
-            return bookService.getAllBooks();
-        }
+
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
     @PostMapping
