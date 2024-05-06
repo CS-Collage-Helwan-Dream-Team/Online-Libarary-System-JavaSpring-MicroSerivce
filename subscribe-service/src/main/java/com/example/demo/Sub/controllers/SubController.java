@@ -91,25 +91,3 @@ public class SubController {
 }
 
 
-
-
-//
-//
-//if (subscriptionService.addSubscriber(subscriberRequest)){
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-//                    new ResponseDTO(
-//        "Error adding subscriber",
-//                    HttpStatus.BAD_REQUEST
-//                    )
-//            );
-//                    }
-//
-//                    return ResponseEntity.status(HttpStatus.CREATED).body(
-//                new ResponseDTO(
-//        "Book added successfully",
-//                HttpStatus.CREATED,
-//                        new HashMap<String , Object>(){{
-//    put("book", book);
-//}}
-//                )
-//                        );
