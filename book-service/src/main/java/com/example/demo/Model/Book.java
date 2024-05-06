@@ -1,9 +1,10 @@
-package com.example.demo.test;
+package com.example.demo.Model;
 
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -22,14 +23,21 @@ public class Book {
             generator = "book_sequence"
     )
     private int id;
-
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String authorName;
+    @Column(nullable = false)
     private String isbn;
+    @Column(nullable = false)
     private int rackNumber;
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private Boolean isAvailable;
+    @Column(nullable = false)
     private int categoryId;
+    @Column(nullable = false)
     private String imageUrl;
 
     @ManyToOne
