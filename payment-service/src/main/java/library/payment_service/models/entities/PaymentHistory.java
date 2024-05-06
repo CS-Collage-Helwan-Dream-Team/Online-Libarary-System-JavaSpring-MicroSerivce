@@ -1,6 +1,7 @@
 package library.payment_service.models.entities;
 
 import jakarta.persistence.*;
+import library.payment_service.models.DTOs.PaymentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,8 +25,8 @@ public class PaymentHistory {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
-    @Column(name = "card_number")
-    private Integer cardNumber;
+    @Column(name = "card_number", nullable = false)
+    private String cardNumber;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
@@ -36,6 +37,15 @@ public class PaymentHistory {
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
+    }
+
+    public static PaymentHistory from(PaymentDTO dto){
+        return PaymentHistory.builder()
+                .id(dto.getId())
+                .userId(dto.getUserId())
+                .cardNumber(dto.getCardNumber())
+                .amount(dto.getAmount())
+                .build();
     }
 
 }

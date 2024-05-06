@@ -23,7 +23,7 @@ spring:
         - id: payment
           uri: http://localhost:8085
           predicates:
-            - Path=/payment/**
+            - Path=/api/payment/**
 
 management:
   endpoints:

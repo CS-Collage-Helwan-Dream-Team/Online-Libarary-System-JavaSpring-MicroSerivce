@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("/payments")
 public class TestController {
 
     @AuthorizationRequired
@@ -35,4 +35,5 @@ public class TestController {
         // Your logic for admin endpoint
         return "This is an auth endpoint";
     }
+
 }
