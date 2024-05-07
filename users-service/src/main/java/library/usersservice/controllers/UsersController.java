@@ -1,5 +1,6 @@
 package library.usersservice.controllers;
 
+import jakarta.validation.Valid;
 import library.usersservice.annotations.AuthorizationRequired;
 import library.usersservice.annotations.UserRoleCheck;
 import library.usersservice.dtos.ResponseDTO;
@@ -46,7 +47,7 @@ public class UsersController {
     @AuthorizationRequired
     @UserRoleCheck(UserRole.LIBRARIAN)
     @PatchMapping("/api/librarian/users/{Id}")
-    public ResponseEntity<ResponseDTO> Update(@PathVariable Integer Id , @RequestBody UpdateUserRequest request){
+    public ResponseEntity<ResponseDTO> Update(@PathVariable Integer Id , @Valid @RequestBody UpdateUserRequest request){
 
         User existingUser = userService.findById(Id);
 

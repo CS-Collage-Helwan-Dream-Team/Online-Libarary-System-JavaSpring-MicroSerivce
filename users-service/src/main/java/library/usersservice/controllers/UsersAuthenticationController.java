@@ -1,18 +1,22 @@
 package library.usersservice.controllers;
 
+import jakarta.validation.Valid;
 import library.usersservice.dtos.ResponseDTO;
 import library.usersservice.enums.UserStatus;
 import library.usersservice.models.User;
 import library.usersservice.requests.LoginRequest;
 import library.usersservice.requests.RegisterRequest;
 import library.usersservice.services.UserService;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @RestController
 public class UsersAuthenticationController {
@@ -23,7 +27,7 @@ public class UsersAuthenticationController {
     }
 
     @PostMapping("api/auth/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ResponseDTO> login(@Valid @RequestBody LoginRequest request ) {
         User user = userService.findByEmail(request.getEmail());
 
         if(user == null) {
@@ -55,7 +59,7 @@ public class UsersAuthenticationController {
     }
 
     @PostMapping("api/auth/customer/register")
-    public ResponseEntity<ResponseDTO> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<ResponseDTO> register(@Valid @RequestBody RegisterRequest request){
 
         User oldUserWithTheSameEmail = userService.findByEmail(request.getEmail());
         if( oldUserWithTheSameEmail != null ) {
