@@ -5,45 +5,66 @@ services:
     container_name: usersDatabase
     image: mysql:8.0.36
     ports:
-      - "3308:3306"
+      - "3306:3306"
     environment:
       - MYSQL_DATABASE=users
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
-
-  booksDatabase:
-    container_name: booksDatabase
-    image: mysql:8.0.36
-    ports:
-      - "3307:3306"
-    environment:
-      - MYSQL_DATABASE=book
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-
-
   user-service:
     container_name: users_service
     image: springboot-app
+    restart: always
     build: ./users-service
     ports:
-      - "8085:8085"
-    depends_on:
-      - usersDatabase
-    networks:
-      - spring-network
+      - "8081:8080"
 
-  books-service:
-    container_name: books_service
-    image: springboot-app
-    build: ./book-service
-    ports:
-      - "8086:8086"
-    depends_on:
-      - booksDatabase
-    networks:
-      - spring-network
+    #    depends_on:
+    #      - usersDatabase
+    #    networks:
+    #      - spring-network
+
+#  booksDatabase:
+#    container_name: booksDatabase
+#    image: mysql:8.0.36
+#    ports:
+#      - "3307:3306"
+#    environment:
+#      - MYSQL_DATABASE=book
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
 
 
-networks:
-  spring-network:
+
+
+#  subscriptionDatabase:
+#    container_name: subscriptionDatabase
+#    image: mysql:8.0.36
+#    ports:
+#      - "3307:3306"
+#    environment:
+#      - MYSQL_DATABASE=subscription
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+#
+#  subscription-service:
+#    container_name: subscription-service
+#    image: springboot-app
+#    restart: always
+#    build: ./subscription-service
+#    ports:
+#      - "8082:8080"
+
+#  books-service:
+#    container_name: books_service
+#    image: springboot-app
+#    build: ./book-service
+#    ports:
+#      - "8086:8086"
+#    depends_on:
+#      - booksDatabase
+#    networks:
+#      - spring-network
+#
+#
+#networks:
+#  spring-network:
