@@ -1,34 +1,88 @@
 version: '3.8'
 
 services:
-  usersDatabase:
-    container_name: usersDatabase
-    image: mysql:8.0.36
+  users_database:
+    container_name: users_database
+    image: "mysql:8.0"
     restart: always
     ports:
       - "3306:3306"
     environment:
       - MYSQL_DATABASE=users
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER= library
+      - MYSQL_PASSWORD= library
+      - MYSQL_ROOT_PASSWORD= library
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    networks:
+      - spring-network
 #    volumes:
 #      - usersDatabase:/var/lib/mysql
 ##///////////////////////////////////////////////////////////
-  user-service:
-    container_name: users_service
-    image: springboot-app
-    restart: always
-    stdin_open: true
-    build: ./users-service
-    ports:
-      - "8081:8080"
+#  user-service:
+#    container_name: users_service
+##    restart: on-failure
+#    stdin_open: true
+#    environment:
+#      - spring.datasource.url=jdbc:mysql://localhost:3306/users?allowPublicKeyRetrieval=true
+#    build: ./users-service
+#    ports:
+#      - "8082:8082"
 #    volumes:
 #        - ./users-service:/app
 #        - ./users-service/logs:/app/logs
-    depends_on:
-      - usersDatabase
+#    depends_on:
+#      - users_database
 #    networks:
 #      - spring-network
+
+
+  borrow-service:
+    container_name: borrow_service
+    #    restart: on-failure
+    stdin_open: true
+    environment:
+      - spring.datasource.url=jdbc:mysql://booksdb:3308/book?allowPublicKeyRetrieval=true
+    build: ./borrow-service
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./borrow-service:/app
+      - ./borrow-service/logs:/app/logs
+    depends_on:
+      - booksdb
+    networks:
+      - spring-network
+
+  test-service:
+    container_name: test_service
+    #    restart: on-failure
+    stdin_open: true
+
+    build: ./php
+    ports:
+      - "8084:8084"
+    volumes:
+      - ./app:/usr/src/app
+    depends_on:
+      - booksdb
+    networks:
+      - spring-network
+
+  booksdb:
+    container_name: booksdb
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - "3308:3308"
+    environment:
+      - MYSQL_DATABASE= book
+      - MYSQL_USER= library
+      - MYSQL_PASSWORD= library
+      - MYSQL_ROOT_PASSWORD= library
+    networks:
+      - spring-network
+
+
 ##///////////////////////////////////////////////////////////
 #  booksDatabase:
 #    container_name: booksDatabase
@@ -148,8 +202,8 @@ services:
 ##    networks:
 ##      - spring-network
 ###///////////////////////////////////////////////////////////
-#networks:
-#  spring-network:
+networks:
+  spring-network:
 ##volumes:
 ##  usersDatabase:
 ##    driver: local

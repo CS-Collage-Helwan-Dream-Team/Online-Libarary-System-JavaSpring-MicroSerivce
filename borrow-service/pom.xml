@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>borrow2</finalName>
 	</build>
 
 </project>
