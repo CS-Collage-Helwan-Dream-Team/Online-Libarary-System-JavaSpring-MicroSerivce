@@ -4,67 +4,160 @@ services:
   usersDatabase:
     container_name: usersDatabase
     image: mysql:8.0.36
+    restart: always
     ports:
       - "3306:3306"
     environment:
       - MYSQL_DATABASE=users
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
+#    volumes:
+#      - usersDatabase:/var/lib/mysql
+##///////////////////////////////////////////////////////////
   user-service:
     container_name: users_service
     image: springboot-app
     restart: always
+    stdin_open: true
     build: ./users-service
     ports:
       - "8081:8080"
-
-    #    depends_on:
-    #      - usersDatabase
-    #    networks:
-    #      - spring-network
-
+#    volumes:
+#        - ./users-service:/app
+#        - ./users-service/logs:/app/logs
+    depends_on:
+      - usersDatabase
+#    networks:
+#      - spring-network
+##///////////////////////////////////////////////////////////
 #  booksDatabase:
 #    container_name: booksDatabase
 #    image: mysql:8.0.36
+#    restart: always
 #    ports:
 #      - "3307:3306"
 #    environment:
 #      - MYSQL_DATABASE=book
 #      - MYSQL_ROOT_PASSWORD=
 #      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-
-
-
-
-#  subscriptionDatabase:
-#    container_name: subscriptionDatabase
-#    image: mysql:8.0.36
-#    ports:
-#      - "3307:3306"
-#    environment:
-#      - MYSQL_DATABASE=subscription
-#      - MYSQL_ROOT_PASSWORD=
-#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-#
-#  subscription-service:
-#    container_name: subscription-service
-#    image: springboot-app
-#    restart: always
-#    build: ./subscription-service
-#    ports:
-#      - "8082:8080"
-
+##    volumes:
+##      - booksDatabase:/var/lib/mysql
+##  #///////////////////////////////////////////////////////////
 #  books-service:
 #    container_name: books_service
 #    image: springboot-app
 #    build: ./book-service
+#    restart: always
+#    stdin_open: true
+##    volumes:
+##      - ./books_service:/app
+##      - ./books_service/logs:/app/logs
 #    ports:
-#      - "8086:8086"
+#      - "8082:8080"
 #    depends_on:
 #      - booksDatabase
+##    networks:
+##      - spring-network
+###///////////////////////////////////////////////////////////
+#  subscribeDatabase:
+#    container_name: subscribeDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3308:3306"
+#    environment:
+#      - MYSQL_DATABASE=subscription
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - subscribeDatabase:/var/lib/mysql
 #    networks:
 #      - spring-network
-#
-#
+##///////////////////////////////////////////////////////////
+#  subscribe-service:
+#    container_name: subscribe-service
+#    image: springboot-app
+#    restart: always
+#    build: ./subscribe-service
+#    stdin_open: true
+##    volumes:
+##      - ./subscribe-service:/app
+##      - ./subscribe-service/logs:/app/logs
+#    ports:
+#      - "8083:8080"
+#    depends_on:
+#      - subscribeDatabase
+#    networks:
+#      - spring-network
+##///////////////////////////////////////////////////////////
+#  paymentDatabase:
+#    container_name: paymentDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3309:3306"
+#    environment:
+#      - MYSQL_DATABASE=payment-db
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - paymentDatabase:/var/lib/mysql
+###///////////////////////////////////////////////////////////
+#  payment-service:
+#    container_name: payment-service
+#    image: springboot-app
+#    restart: always
+#    build: ./payment-service
+#    stdin_open: true
+##    volumes:
+##      - ./payment-service:/app
+##      - ./payment-service/logs:/app/logs
+#    ports:
+#      - "8084:8080"
+#    depends_on:
+#      - paymentDatabase
+##    networks:
+##      - spring-network
+###///////////////////////////////////////////////////////////
+#  borrowDatabase:
+#    container_name: borrowDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3340:3306"
+#    environment:
+#      - MYSQL_DATABASE=borrowDatabase
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - borrowDatabase:/var/lib/mysql
+###///////////////////////////////////////////////////////////
+#  borrow-service:
+#    container_name: borrow-service
+#    image: springboot-app
+#    restart: always
+#    build: ./borrow-service
+#    stdin_open: true
+##    volumes:
+##      - ./borrow-service:/app
+##      - ./borrow-service/logs:/app/logs
+#    ports:
+#      - "8085:8080"
+#    depends_on:
+#      - borrowDatabase
+##    networks:
+##      - spring-network
+###///////////////////////////////////////////////////////////
 #networks:
 #  spring-network:
+##volumes:
+##  usersDatabase:
+##    driver: local
+##  subscribeDatabase:
+##    driver: local
+##  paymentDatabase:
+##    driver: local
+##  borrowDatabase:
+##    driver: local
+##  booksDatabase :
+##    driver: local
