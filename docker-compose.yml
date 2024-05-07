@@ -1,99 +1,163 @@
 version: '3.8'
 
 services:
-  api-gateway:
-    build: ./api-gateway
+  usersDatabase:
+    container_name: usersDatabase
+    image: mysql:8.0.36
+    restart: always
     ports:
-      - "8080:8080"
-    depends_on:
-      - book-service
-      - user-service
-      - borrow-service
-      - payment-service
-      - sp-service
-      - recommendation-service
-
-  book-service:
-    build: ./book-service
+      - "3306:3306"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://books-db:3306/books-db
-    depends_on:
-      - books-db
-
+      - MYSQL_DATABASE=users
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+#    volumes:
+#      - usersDatabase:/var/lib/mysql
+##///////////////////////////////////////////////////////////
   user-service:
-    build: ./user-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://users-db:3306/users-db
-    depends_on:
-      - users-db
-
-  borrow-service:
-    build: ./borrow-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://books-db:3306/books-db
-    depends_on:
-      - books-db
-
-  payment-service:
-    build: ./payment-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://payment-db:3306/payment-db
-    depends_on:
-      - payment-db
-
-  sp-service:
-    build: ./subscription-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://sp-db:3306/sp-db
-    depends_on:
-      - sp-db
-
-  recommendation-service:
-    build: ./recommendation-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://books-db:3306/books-db
-    depends_on:
-      - books-db
-
-  frontend:
-    build: ./frontend
+    container_name: users_service
+    image: springboot-app
+    restart: always
+    stdin_open: true
+    build: ./users-service
     ports:
-      - "3000:3000"
-
-  books-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=books-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - books-data:/var/lib/mysql
-
-  users-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=users-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - users-data:/var/lib/mysql
-
-  payment-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=payment-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - payment-data:/var/lib/mysql
-
-  sp-db:
-    image: mysql:latest
-    environment:
-      - MYSQL_DATABASE=sp-db
-      - MYSQL_ROOT_PASSWORD=root_password
-    volumes:
-      - sp-data:/var/lib/mysql
-
-volumes:
-  books-data:
-  users-data:
-  payment-data:
-  sp-data:
+      - "8081:8080"
+#    volumes:
+#        - ./users-service:/app
+#        - ./users-service/logs:/app/logs
+    depends_on:
+      - usersDatabase
+#    networks:
+#      - spring-network
+##///////////////////////////////////////////////////////////
+#  booksDatabase:
+#    container_name: booksDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3307:3306"
+#    environment:
+#      - MYSQL_DATABASE=book
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - booksDatabase:/var/lib/mysql
+##  #///////////////////////////////////////////////////////////
+#  books-service:
+#    container_name: books_service
+#    image: springboot-app
+#    build: ./book-service
+#    restart: always
+#    stdin_open: true
+##    volumes:
+##      - ./books_service:/app
+##      - ./books_service/logs:/app/logs
+#    ports:
+#      - "8082:8080"
+#    depends_on:
+#      - booksDatabase
+##    networks:
+##      - spring-network
+###///////////////////////////////////////////////////////////
+#  subscribeDatabase:
+#    container_name: subscribeDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3308:3306"
+#    environment:
+#      - MYSQL_DATABASE=subscription
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - subscribeDatabase:/var/lib/mysql
+#    networks:
+#      - spring-network
+##///////////////////////////////////////////////////////////
+#  subscribe-service:
+#    container_name: subscribe-service
+#    image: springboot-app
+#    restart: always
+#    build: ./subscribe-service
+#    stdin_open: true
+##    volumes:
+##      - ./subscribe-service:/app
+##      - ./subscribe-service/logs:/app/logs
+#    ports:
+#      - "8083:8080"
+#    depends_on:
+#      - subscribeDatabase
+#    networks:
+#      - spring-network
+##///////////////////////////////////////////////////////////
+#  paymentDatabase:
+#    container_name: paymentDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3309:3306"
+#    environment:
+#      - MYSQL_DATABASE=payment-db
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - paymentDatabase:/var/lib/mysql
+###///////////////////////////////////////////////////////////
+#  payment-service:
+#    container_name: payment-service
+#    image: springboot-app
+#    restart: always
+#    build: ./payment-service
+#    stdin_open: true
+##    volumes:
+##      - ./payment-service:/app
+##      - ./payment-service/logs:/app/logs
+#    ports:
+#      - "8084:8080"
+#    depends_on:
+#      - paymentDatabase
+##    networks:
+##      - spring-network
+###///////////////////////////////////////////////////////////
+#  borrowDatabase:
+#    container_name: borrowDatabase
+#    image: mysql:8.0.36
+#    restart: always
+#    ports:
+#      - "3340:3306"
+#    environment:
+#      - MYSQL_DATABASE=borrowDatabase
+#      - MYSQL_ROOT_PASSWORD=
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+##    volumes:
+##      - borrowDatabase:/var/lib/mysql
+###///////////////////////////////////////////////////////////
+#  borrow-service:
+#    container_name: borrow-service
+#    image: springboot-app
+#    restart: always
+#    build: ./borrow-service
+#    stdin_open: true
+##    volumes:
+##      - ./borrow-service:/app
+##      - ./borrow-service/logs:/app/logs
+#    ports:
+#      - "8085:8080"
+#    depends_on:
+#      - borrowDatabase
+##    networks:
+##      - spring-network
+###///////////////////////////////////////////////////////////
+#networks:
+#  spring-network:
+##volumes:
+##  usersDatabase:
+##    driver: local
+##  subscribeDatabase:
+##    driver: local
+##  paymentDatabase:
+##    driver: local
+##  borrowDatabase:
+##    driver: local
+##  booksDatabase :
+##    driver: local

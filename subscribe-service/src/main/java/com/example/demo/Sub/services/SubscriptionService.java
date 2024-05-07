@@ -20,12 +20,14 @@ public class SubscriptionService {
 
 //////////////   Main //////////////////
 
-    public void addSubscriber(SubscriberRequest subscriberRequest) {
+    public SubModel addSubscriber(SubscriberRequest subscriberRequest) {
         SubModel subscriber = new SubModel();
         subscriber.setUserId(subscriberRequest.getUserId());
         subscriber.setPaymentId(subscriberRequest.getPaymentId());
         subscriber.setStartDate(subscriberRequest.getStartDate());
-        subscriberRepository.save(subscriber);
+        subscriber = subscriberRepository.save(subscriber);
+
+        return subscriber ;
     }
 
 
@@ -94,6 +96,29 @@ public class SubscriptionService {
 
         return period;
     }
+
+
+
+    public boolean addCheckNull(SubscriberRequest subscriberRequest) {
+        if(
+                isNullOrEmpty(String.valueOf(subscriberRequest.getUserId())) ||
+                        isNullOrEmpty(String.valueOf(subscriberRequest.getPaymentId())) ||
+                        isNullOrEmpty(String.valueOf(subscriberRequest.getStartDate()))
+
+            )
+               {
+                    return true;
+               }
+        return false;
+    }
+
+    private boolean isNullOrEmpty(String value) {
+      boolean val = value == null || value.isEmpty();
+        return val ;
+    }
+
+
+
 
 }
 

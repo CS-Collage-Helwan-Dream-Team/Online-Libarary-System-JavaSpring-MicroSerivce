@@ -1,9 +1,25 @@
 package library.usersservice.requests;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class RegisterRequest {
+
+    @NotBlank(message = "Please enter an email")
+    @Size(min = 6 , max = 50 , message = "Email must be between 6 and 50 characters")
     private String email;
+
+    @NotBlank(message = "Please enter a password")
+    @Size(min = 6 , max = 50 , message = "Password must be between 6 and 50 characters")
     private String password;
+
+    @NotBlank(message = "Please enter a valid role ( user - librarian )")
+    @Size(min = 3 , max = 10 , message = "Role size must be between 6 and 50 characters")
     private String role;
+
+    @NotBlank(message = "Please enter a username")
+    @Size(min = 3 , max = 10 , message = "Role size must be between 6 and 50 characters")
+    private String username;
 
     public String getUsername() {
         return username;
@@ -36,6 +52,4 @@ public class RegisterRequest {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    private String username;
 }
