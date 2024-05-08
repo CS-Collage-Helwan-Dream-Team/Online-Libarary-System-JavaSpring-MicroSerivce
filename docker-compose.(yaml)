@@ -1,0 +1,201 @@
+version: '3.*'
+
+services:
+
+  user-service:
+    container_name: user_service
+    restart: on-failure
+    stdin_open: true
+    environment:
+      - spring.datasource.url=jdbc:mysql://userDatabase:3306/user?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+      - server.port=8085
+    build: ./users-service
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./users-service:/app
+      - ./users-service/logs:/app/logs
+
+    depends_on:
+      - userDatabase
+    networks:
+      - users-network
+
+
+  subscribe-service:
+    container_name: subscribe_service
+    restart: on-failure
+    stdin_open: true
+    environment:
+      - spring.datasource.url=jdbc:mysql://subscribeDatabase:3306/subscribe?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+      - server.port=8084
+    build: ./subscribe-service
+    ports:
+      - "8084:8084"
+    volumes:
+      - ./subscribe-service:/app
+      - ./subscribe-service/logs:/app/logs
+
+    depends_on:
+      - subscribeDatabase
+    networks:
+      - sb-network
+
+
+  payment-service:
+    container_name: payment_service
+    restart: on-failure
+    stdin_open: true
+    environment:
+      - spring.datasource.url=jdbc:mysql://paymentDb:3306/paymentdb?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+      - server.port=8083
+    build: ./payment-service
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./payment-service:/app
+      - ./payment-service/logs:/app/logs
+    depends_on:
+      - paymentDb
+    networks:
+      - payment2-network
+
+
+  book-service:
+    container_name: book_service
+    restart: on-failure
+    stdin_open: true
+    environment:
+      - spring.datasource.url=jdbc:mysql://booksDatabase:3306/book?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+    #      - server.port=8081
+    build: ./book-service
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./book-service:/app
+      - ./book-service/logs:/app/logs
+    depends_on:
+      - booksDatabase
+    networks:
+      - book-network
+
+
+  borrow-service:
+    container_name: borrow_service
+    restart: on-failure
+    stdin_open: true
+    environment:
+      - spring.datasource.url=jdbc:mysql://booksDatabase:3306/book?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+#      - server.port=8081
+    build: ./borrow-service
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./borrow-service:/app
+      - ./borrow-service/logs:/app/logs
+    depends_on:
+        - booksDatabase
+    networks:
+      - book-network
+
+  paymentDatabase:
+    container_name: paymentDatabase
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=payment
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./docker/payment_mysql:/var/lib/mysql
+    networks:
+        - payment-network
+
+  paymentDb:
+    container_name: paymentDb
+    image: mysql:latest
+    restart: on-failure
+    ports:
+      - "3311:3306"
+    environment:
+      - MYSQL_DATABASE=paymentdb
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./docker/paymentDb_mysql:/var/lib/mysql
+    networks:
+      - payment2-network
+
+  booksDatabase:
+    container_name: booksDatabase
+    image: mysql:latest
+    restart: on-failure
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_DATABASE=book
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./docker/book_mysql:/var/lib/mysql
+    networks:
+      - book-network
+
+  subscribeDatabase:
+    container_name: subscribeDatabase
+    image: mysql:latest
+    restart: on-failure
+    ports:
+      - "3309:3306"
+    environment:
+      - MYSQL_DATABASE=subscribe
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./docker/subscribe_mysql:/var/lib/mysql
+    networks:
+      - sb-network
+
+  userDatabase:
+    container_name: userDatabase
+    image: mysql:latest
+    restart: on-failure
+    ports:
+      - "3310:3306"
+    environment:
+      - MYSQL_DATABASE=user
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./docker/user_mysql:/var/lib/mysql
+    networks:
+      - users-network
+
+
+networks:
+  book-network:
+    driver: bridge
+
+  users-network:
+    driver: bridge
+
+  sb-network:
+    driver: bridge
+
+  payment-network:
+    driver: bridge
+
+  payment2-network:
+    driver: bridge
