@@ -2,139 +2,133 @@ version: "3"
 networks:
   lms-network:
 services:
-  ######################book-service###########################
-#  book-app:
-#    container_name: book-app-container
-#    image: book-app
-#    restart: always
-#    build: ./BookServiceApp
-#    ports:
-#      - "9092:8080"
-#    environment:
-#      MYSQL_HOST: bookdb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: root
-#      MYSQL_PORT: 3306
-#    networks:
-#      - lms-network
-#  #######################bookdb-service###########################
-#  bookdb:
-#    container_name: bookdb
-#    image: mysql:8.0.36
-#    volumes:
-#          - D:\Projects\college\react\SA\sw-project\bookV:/var/lib/mysql
-#    ports:
-#      - "4040:3306"
-#    environment:
-#      MYSQL_DATABASE: bookdb
-#      MYSQL_ROOT_PASSWORD: root
-#    networks:
-#      - lms-network
-  ######################Subscribtion-service###########################
-  # sub-app:
-  #   container_name: sub-app-container
-  #   image: sub-app
-  #   restart: always
-  #   build: ./SubServiceApp
-  #   ports:
-  #     - "9098:8080"
-  #   environment:
-  #     MYSQL_HOST: subsdb
-  #     MYSQL_USER: root
-  #     MYSQL_PASSWORD: root
-  #     MYSQL_PORT: 3306
-  #   networks:
-  #     - lms-network
-  # #######################bookdb-service###########################
-  # bookdb:
-  #   container_name: bookdb
-  #   image: mysql:8.0.36
-  #   volumes:
-  #     - D:\Projects\college\react\SA\sw-project\bookV:/var/lib/mysql
-  # #######################SubscribtionDb-service###########################
-  # subsdb:
-  #   container_name: subsdb
-  #   image: mysql:8.0
-  #   volumes:
-  #     - D:\Projects\college\react\SA\sw-project\bookV:/var/lib/mysql
-  #   ports:
-  #     - "4049:3306"
-  #   environment:
-  #     MYSQL_DATABASE: subsdb
-  #     MYSQL_ROOT_PASSWORD: root
-  #   networks:
-  #     - lms-network
-#  ######################user-service###########################
-#  user-app:
-#    container_name: user-app-container
-#    image: user-app
-#    restart: always
-#    build: ./UserServiceApp
-#    ports:
-#      - "9093:8080"
-#    environment:
-#      MYSQL_HOST: userdb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: root
-#      MYSQL_PORT: 3306
-#    networks:
-#      - lms-network
-#  #######################userdb-service###########################
-#  userdb:
-#    container_name: userdb
-#    image: mysql:8.0.36
-#    volumes:
-#      - D:\Projects\college\react\SA\sw-project\userV:/var/lib/mysql
-#    ports:
-#      - "4041:3306"
-#    environment:
-#      MYSQL_DATABASE: userdb
-#      MYSQL_ROOT_PASSWORD: root
-#    networks:
-#      - lms-network
-#  #####################payment-service###########################
-#  payment-app:
-#    container_name: payment-app-container
-#    image: payment-app
-#    restart: always
-#    build: ./PaymentService
-#    ports:
-#      - "9098:8080"
-#    environment:
-#      MYSQL_HOST: paymentdb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: root
-#      MYSQL_PORT: 3306
-#    networks:
-#      - lms-network
-#  #######################userdb-service###########################
-#  paymentdb:
-#    container_name: paymentdb
-#    image: mysql:8.0.36
-#    volumes:
-#      - D:\Projects\college\react\SA\sw-project\userV:/var/lib/mysql
-#    ports:
-#      - "4048:3306"
-#    environment:
-#      MYSQL_DATABASE: paymentdb
-#      MYSQL_ROOT_PASSWORD: root
-#    networks:
-#      - lms-network
-#  #######################borrowing-service###########################
-#  borrowing-app:
-#    container_name: borrowing-app-container
-#    image: borrowing-app
-#    restart: always
-#    build: ./BorrowingServiceApp
-#    ports:
-#      - "9094:8080"
-#    environment:
-#      MYSQL_HOST: borrowingdb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: root
-#      MYSQL_PORT: 3306
-#    networks:
-#      - lms-network
+######################book-service###########################
+  book-app:
+    container_name: book-app-container
+    image: book-app
+    restart: always
+    build: ./BookServiceApp
+    ports:
+      - "9092:8080"
+    environment:
+      MYSQL_HOST: bookdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - lms-network
+  #######################bookdb-service###########################
+  bookdb:
+    container_name: bookdb
+    image: mysql:8.0.36
+    volumes:
+          - D:\Projects\college\react\SA\sw-project\bookV:/var/lib/mysql
+    ports:
+      - "4040:3306"
+    environment:
+      MYSQL_DATABASE: bookdb
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - lms-network
+  #####################Subscribtion-service###########################
+  sub-app:
+    container_name: sub-app-container
+    image: sub-app
+    restart: always
+    build: ./SubServiceApp
+    ports:
+      - "9098:8080"
+    environment:
+      MYSQL_HOST: subsdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - lms-network
+  #######################SubscribtionDb-service###########################
+  subsdb:
+    container_name: subsdb
+    image: mysql:8.0
+    volumes:
+      - D:\Projects\college\react\SA\sw-project\bookV:/var/lib/mysql
+    ports:
+      - "4049:3306"
+    environment:
+      MYSQL_DATABASE: subsdb
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - lms-network
+  ######################user-service###########################
+  user-app:
+    container_name: user-app-container
+    image: user-app
+    restart: always
+    build: ./UserServiceApp
+    ports:
+      - "9093:8080"
+    environment:
+      MYSQL_HOST: userdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - lms-network
+  #######################userdb-service###########################
+  userdb:
+    container_name: userdb
+    image: mysql:8.0.36
+    volumes:
+      - D:\Projects\college\react\SA\sw-project\userV:/var/lib/mysql
+    ports:
+      - "4041:3306"
+    environment:
+      MYSQL_DATABASE: userdb
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - lms-network
+  #####################payment-service###########################
+  payment-app:
+    container_name: payment-app-container
+    image: payment-app
+    restart: always
+    build: ./PaymentService
+    ports:
+      - "9098:8080"
+    environment:
+      MYSQL_HOST: paymentdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - lms-network
+  #######################userdb-service###########################
+  paymentdb:
+    container_name: paymentdb
+    image: mysql:8.0.36
+    volumes:
+      - D:\Projects\college\react\SA\sw-project\userV:/var/lib/mysql
+    ports:
+      - "4048:3306"
+    environment:
+      MYSQL_DATABASE: paymentdb
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - lms-network
+  #######################borrowing-service###########################
+  borrowing-app:
+    container_name: borrowing-app-container
+    image: borrowing-app
+    restart: always
+    build: ./BorrowingServiceApp
+    ports:
+      - "9094:8080"
+    environment:
+      MYSQL_HOST: borrowingdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - lms-network
 
 #  #######################react-service###########################
   react:
