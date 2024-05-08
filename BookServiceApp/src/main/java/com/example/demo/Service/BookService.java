@@ -50,6 +50,15 @@ public class BookService {
         return bookRepository.save(newBook);
     }
 
+    public List<Book> findBooksByIsbn(String ISBN) {
+        return bookRepository.findByIsbnContaining(ISBN);
+    }
+
+
+    public List<Book> findBooksByRackNumber(int rackNumber) {
+        return bookRepository.findByRackNumber(rackNumber);
+    }
+
     public boolean addCheckNull(AddBookRequest addBookRequest) {
         if(
                 isNullOrEmpty(addBookRequest.getTitle()) ||

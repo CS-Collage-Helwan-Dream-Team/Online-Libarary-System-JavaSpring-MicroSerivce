@@ -58,7 +58,19 @@ public class BookController {
         );
     }
 
-    @GetMapping("/category")
+    @GetMapping("/isbn")
+    public ResponseEntity<List<Book>> findBooksByIsbn(@RequestParam String ISBN) {
+        List<Book> books = bookService.findBooksByIsbn(ISBN);
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/rack")
+    public ResponseEntity<List<Book>> findBooksByRackNumber(@RequestParam int rackNumber) {
+        List<Book> books = bookService.findBooksByRackNumber(rackNumber);
+        return ResponseEntity.ok(books);
+    }
+
+        @GetMapping("/category")
     public ResponseEntity<ResponseDTO> getCategories(@RequestHeader("credentials") String credentials) {
         List<Category> categories = CategoryService.getCategories();
         return ResponseEntity.status(HttpStatus.OK).body(
