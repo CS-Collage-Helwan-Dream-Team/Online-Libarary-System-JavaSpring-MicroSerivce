@@ -106,17 +106,28 @@ public class BookController {
                     )
             );
         }
-        Book book = bookService.addBook(addBookRequest);
+        else if(bookService.checkIsbn(addBookRequest.getIsbn())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new ResponseDTO(
+                            "ISBN already exists",
+                            HttpStatus.BAD_REQUEST
+                    )
+            );
+        }
+        else {
+            Book book = bookService.addBook(addBookRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                new ResponseDTO(
-                        "Book added successfully",
-                        HttpStatus.CREATED,
-                        new HashMap<String , Object>(){{
-                            put("book", book);
-                        }}
-                )
-        );
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    new ResponseDTO(
+                            "Book added successfully",
+                            HttpStatus.CREATED,
+                            new HashMap<String , Object>(){{
+                                put("book", book);
+                            }}
+                    )
+            );
+        }
+
     }
 
     @DeleteMapping(path = "{bookId}")

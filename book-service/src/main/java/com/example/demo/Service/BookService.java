@@ -32,6 +32,11 @@ public class BookService {
         return optionalBook.orElse(null);
     }
 
+    public boolean checkIsbn(String isbn) {
+        Optional<Book> book = bookRepository.findBookByIsbn(isbn);
+        return book.isPresent();
+    }
+
     public Book addBook(AddBookRequest addBookRequest) {
         Book newBook = new Book();
         newBook.setTitle(addBookRequest.getTitle());
