@@ -1,0 +1,254 @@
+:root {
+    /* Indigo */
+    --color-brand-50: #fcf8ff;
+    --color-brand-100: #7553eb1c;
+    --color-brand-200: #e59285ad;
+    --color-brand-500: #e59285e3;
+    --color-brand-600: #e46956;
+    --color-brand-700: #da503b;
+    --color-brand-800: #4c1c95;
+    --color-brand-900: #3c2b7d;
+
+    /* Grey */
+    --color-grey-0: #fff;
+    --color-grey-20: #f7f7f7;
+    --color-grey-50: #f5f5f5;
+    --color-grey-100: #d9d9d9;
+    --color-grey-200: #d4d4d4;
+    --color-grey-300: #a1a1a1;
+    --color-grey-400: #737373;
+    --color-grey-500: #41413f;
+    --color-grey-600: #262625;
+    --color-grey-700: #121212;
+
+    --backdrop-color: rgba(0, 0, 0, 0.3);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
+
+    --image-grayscale: 10%;
+    --image-opacity: 90%;
+}
+
+span,
+a,
+button {
+    display: inline-block;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    list-style: none;
+    /* word-wrap: break-word; */
+    /* Creating animations for dark mode */
+    transition: background-color 0.3s, border 0.3s;
+    text-transform: capitalize !important;
+}
+
+html {
+    font-size: 62.5% !important;
+}
+
+body {
+    font-family: "poppins";
+    color: var(--color-grey-700);
+    font-weight: 400;
+    transition: color 0.3s, background-color 0.3s;
+    min-height: 100vh;
+    /* overflow: hidden; */
+    /* height: 7000px; */
+    line-height: 1.5;
+    font-size: 1.4rem;
+    background: var(--color-grey-0);
+    position: relative;
+    direction: ltr;
+}
+.dark-mode body {
+    background: #111827;
+}
+body:lang(ar) {
+    direction: rtl;
+}
+
+.light-bg-green {
+    background: var(--color-green-100);
+}
+.light-bg-red {
+    background: var(--color-red-100);
+}
+.light-bg-yellow {
+    background: var(--color-yellow-100);
+}
+.light-bg-blue {
+    background: var(--color-blue-100);
+}
+.light-bg-pink {
+    background: var(--color-pink-100);
+}
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+*:disabled {
+    cursor: not-allowed;
+}
+
+select:disabled,
+input:disabled {
+    background-color: var(--color-grey-200);
+    color: var(--color-grey-500);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: -1px;
+}
+
+/* Parent selector, finally 😃 */
+button:has(svg) {
+    line-height: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+    /* hyphens: auto; */
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    width: 100%;
+
+    /* For dark mode */
+    filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+.section-padding {
+    padding: 10rem 0;
+}
+/*********************************************
+ animations
+*********************************************/
+
+.animated {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.fade {
+    -webkit-animation-name: fade;
+    animation-name: fade;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fade {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.fade-left {
+    -webkit-animation-name: fade-left;
+    animation-name: fade-left;
+}
+@keyframes fade-left {
+    0% {
+        opacity: 0;
+        transform: translatex(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translatex(0);
+    }
+}
+.dotAnimate::after {
+    -webkit-animation: pulse 1.5s ease-out infinite;
+    animation: pulse 1.5s ease-out infinite;
+}
+@keyframes pulse {
+    0% {
+        opacity: 0;
+        transform: scale(0, 0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.7);
+    }
+}
+
+.fade2 {
+    -webkit-animation-name: fade2;
+    animation-name: fade2;
+}
+@keyframes fade2 {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
